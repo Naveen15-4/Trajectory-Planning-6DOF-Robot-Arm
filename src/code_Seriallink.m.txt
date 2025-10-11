@@ -1,0 +1,28 @@
+clear all; clc; %#ok<CLALL> 
+% Define the robot (6-DOF)
+L1 = Link('d', 0.191 , 'a' , 0.000 , 'alpha', 90*pi/180);
+L2 = Link('d', 0.000 , 'a' , 0.278 , 'alpha', 0);
+L3 = Link('d', 0.000 , 'a' , 0.000 , 'alpha', -90*pi/180);
+L4 = Link('d', 0.202 , 'a' , 0.000 , 'alpha', 90*pi/180);
+L5 = Link('d', 0.000 , 'a' , 0.000 , 'alpha', -90*pi/180);
+L6 = Link('d', 0.105 , 'a' , 0.000 , 'alpha', 0);
+
+robot = SerialLink([L1 L2 L3 L4 L5 L6], 'name', 'Acrobot');
+
+% Define a fixed pose (adjusted for the desired configuration)
+qFixed = [0, -180*pi/180, 180*pi/180, 0, 0, 0]; % Joint angles in radians
+
+% Display the robot in the fixed position
+figure;
+robot.plot(qFixed);
+
+% Add labels and titles
+
+xlabel('X');
+ylabel('Y');
+zlabel('Z');
+grid on;
+
+% Adjust axis limits for better visualization
+axis equal; % Maintain equal scaling
+view(3);    % Set to 3D view

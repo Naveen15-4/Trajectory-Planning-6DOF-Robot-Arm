@@ -1,0 +1,82 @@
+clc; clear; close all;
+% Load Peter Corke’s Robotics Toolbox
+startup_rvc;
+
+% Define the 6-DOF Robotic Manipulator using DH Parameters
+L1 = Link('d', 0.191 , 'a' , 0.000 , 'alpha', 90*pi/180);
+L2 = Link('d', 0.000 , 'a' , 0.278 , 'alpha', 0);
+L3 = Link('d', 0.000 , 'a' , 0.000 , 'alpha', -90*pi/180);
+L4 = Link('d', 0.202 , 'a' , 0.000 , 'alpha', 90*pi/180);
+L5 = Link('d', 0.000 , 'a' , 0.000 , 'alpha', -90*pi/180);
+L6 = Link('d', 0.105 , 'a' , 0.000 , 'alpha', 0);
+
+% Create SerialLink Object
+robot = SerialLink([L1 L2 L3 L4 L5 L6], 'name', '6-DOF Manipulator');
+
+% Define Start and Goal Pose in Cartesian Space
+P1 = [-0.14, 0, -0.15];  % Start Position (X, Y, Z)
+P2 = [0.15, -0.4, 0.13];   % Goal Position (X, Y, Z) (Increased distance)
+
+% Compute Maximum Reach of the Robot
+max_reach = sum([L2.a, L4.d, L6.d]);  % Sum of link lengths contributing to reach
+
+% Compute the Distance of P1 and P2 from the Robot Base
+d1 = norm(P1);  % Distance of P1 from base
+d2 = norm(P2);  % Distance of P2 from base
+
+% Check if Start and Goal Positions are Reachable
+if d1 > max_reach
+    error('Start position P1 is outside the reachable workspace of the robot.');
+end
+if d2 > max_reach
+    error('Goal position P2 is outside the reachable workspace of the robot.');
+end
+
+% Convert Cartesian Positions to Transformation Matrices
+T1 = transl(P1) * trotx(pi);  % Start Pose with rotation
+T2 = transl(P2) * trotx(pi);  % Goal Pose with rotation
+
+% Solve Inverse Kinematics using ikine()
+q0 = zeros(1,6);  % Initial joint configuration (arbitrary)
+q1 = robot.ikine(T1, q0, [1 1 1 1 1 1]); % Solve IK for (X, Y, Z, Roll, Pitch, Yaw only. 6 DoF Robot) 
+q2 = robot.ikine(T2, q1, [1 1 1 1 1 1]);  
+
+% Validate Inverse Kinematics Solution
+if isempty(q1) || isempty(q2) || any(isnan(q1)) || any(isnan(q2))
+    error('Inverse kinematics failed. Adjust start and goal positions.');
+end
+
+% Define Time Vector for Trajectory Planning
+t = linspace(0, 5, 100);
+
+% Generate Quintic Polynomial Trajectory (Joint-Space)
+[q, qd, qdd] = jtraj(q1, q2, t);
+
+% Simulate Robot Motion
+figure;
+robot.plot(q, 'trail', 'k-'); % Show motion with trail
+hold on;
+
+% Compute End-Effector Cartesian Trajectory
+numPoints = length(t);
+x = zeros(numPoints, 3); % Preallocate for efficiency
+
+for i = 1:numPoints
+    Ti = robot.fkine(q(i, :));  % Compute FK for each row of q
+    x(i, :) = transl(Ti);       % Extract position
+end
+
+% Plot Cartesian Path of the End Effector
+figure;
+plot3(x(:,1), x(:,2), x(:,3), 'r-', 'LineWidth', 2);
+grid on;
+xlabel('X'); ylabel('Y'); zlabel('Z');
+title('End Effector Trajectory in Cartesian Space');
+view(3);
+hold on;
+
+% Plot Start and End Points
+scatter3(P1(1), P1(2), P1(3), 100, 'bo', 'filled'); % Start point
+scatter3(P2(1), P2(2), P2(3), 100, 'go', 'filled'); % End point
+legend('Trajectory', 'Start Position', 'End Position');
+hold off;
