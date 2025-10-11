@@ -64,10 +64,6 @@ Navigate to the `src/` directory in MATLAB and run any of the following scripts:
 ## Project Authors
 
 This project was completed by:
-* Vishruth Gowda 
-* Jayadev
-* Talari Raguram 
-* Saksham 
-* Naveen 
+* Naveen
 
 Project Title: Trajectory Planning and optimization of 6-DOF Manipulator
