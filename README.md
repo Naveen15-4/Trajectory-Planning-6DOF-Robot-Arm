@@ -19,10 +19,10 @@ This project explores time-optimal trajectory planning and obstacle avoidance fo
 Here is a comparison of the unoptimized (direct) path and the PSO-optimized path that successfully avoids the obstacle.
 
 **PSO Trajectory Comparison**
-![PSO Trajectory Comparison](results/pso_comparison.png)
+![PSO Trajectory Comparison](results/PSO.jpg)
 
 **GA Trajectory Comparison**
-![GA Trajectory Comparison](results/ga_comparison.png)
+![GA Trajectory Comparison](results/GA.jpg)
 
 ---
 
