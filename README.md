@@ -1,7 +1,7 @@
 # Trajectory Planning and Optimization for a 6-DOF Robotic Manipulator
 
 This project explores time-optimal trajectory planning and obstacle avoidance for a 6-degree-of-freedom (DOF) serial link manipulator using MATLAB and Peter Corke's Robotics Toolbox. The primary goal is to generate smooth, collision-free paths by comparing standard polynomial trajectories with those optimized by metaheuristic algorithms like Particle Swarm Optimization (PSO) and Genetic Algorithm (GA).
-
+* **Visualization**:
 ## Key Features
 
 * **Robot Modeling**: A 6-DOF manipulator is defined using Denavit-Hartenberg (DH) parameters.
@@ -11,6 +11,14 @@ This project explores time-optimal trajectory planning and obstacle avoidance fo
     * **Particle Swarm Optimization (PSO)**: Finds an optimal intermediate joint configuration to create a path that avoids the obstacle.
     * **Genetic Algorithm (GA)**: Uses evolutionary principles to find a collision-free trajectory.
 * **Visualization**: The robot's motion and the end-effector paths (both optimized and unoptimized) are simulated and plotted in 3D.
+* **Mectric's Ouput**: Unoptimized Trajectory Path Time
+Optimized Trajectory Path Tim
+Unoptimized Trajectory Fitness Value
+Optimized Trajectory Fitness Value
+
+Note: PSO proved more consitent in the trajectory path over multiple seneraios.
+
+
 
 ---
 
