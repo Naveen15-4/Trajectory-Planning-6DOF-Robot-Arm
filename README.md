@@ -11,12 +11,9 @@ This project explores time-optimal trajectory planning and obstacle avoidance fo
     * **Particle Swarm Optimization (PSO)**: Finds an optimal intermediate joint configuration to create a path that avoids the obstacle.
     * **Genetic Algorithm (GA)**: Uses evolutionary principles to find a collision-free trajectory.
 * **Visualization**: The robot's motion and the end-effector paths (both optimized and unoptimized) are simulated and plotted in 3D.
-* **Mectric's Ouput**: Unoptimized Trajectory Path Time
-Optimized Trajectory Path Tim
-Unoptimized Trajectory Fitness Value
-Optimized Trajectory Fitness Value
+* **Mectric's Ouput**: Unoptimized Trajectory Path Time, Optimized Trajectory Path Time, Unoptimized Trajectory Fitness Value, Optimized Trajectory Fitness Value
 
-Note: PSO proved more consitent in the trajectory path over multiple seneraios.
+Note: PSO proved more consitent in the trajectory path over multiple seneraios. The metric depend on the obstacle placement and hence are not given here. GA in very few senerios gave incorrect trajectories (this is shown in the visuals). However the choice of algorithm can be made depending on the application.
 
 
 
